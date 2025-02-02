@@ -15,7 +15,7 @@ public class ChattyDuke {
 
         String line = "____________________________________________________________";
         String indentation = "    ";
-        String[] items = new String[MAX_ITEMS];
+        Task[] items = new Task[MAX_ITEMS];
         int inputCount = 0;
 
         System.out.println(line);
@@ -36,17 +36,45 @@ public class ChattyDuke {
                 System.out.println(indentation + "Bye. Hope to see you again soon!");
                 System.out.println(indentation + line);
             } else if (s1.equalsIgnoreCase("list")) {
+                System.out.println(indentation + "Here are the tasks in your list:");
                 for(int i = 0; i < inputCount; i++){
+                    Task t = items[i];
                     int index = i + 1;
-                    System.out.println(indentation + index + ". " + items[i]);
+                    System.out.println(indentation + index + ". [" + t.getStatusIcon() + "] " + t.getDescription());
 
                 }
                 System.out.println(indentation + line);
                 System.out.println();
 
 
+            } else if (s1.toLowerCase().contains("unmark")) {
+                String[] splitedInput = s1.split(" ");
+
+                int taskNumber = Integer.parseInt(splitedInput[1]);
+                Task t = items[taskNumber - 1];
+                t.unmark();
+
+                System.out.println(indentation + "OK, I've marked this task as not done yet:");
+                System.out.println(indentation + "  [" + t.getStatusIcon() + "] " + t.getDescription());
+                System.out.println(indentation + line);
+                System.out.println();
+
+
+            } else if (s1.toLowerCase().contains("mark")) {
+                String[] splitedInput = s1.split(" ");
+
+                int taskNumber = Integer.parseInt(splitedInput[1]);
+                Task t = items[taskNumber - 1];
+                t.markAsDone();
+
+                System.out.println(indentation + "Nice! I've marked this task as done:");
+                System.out.println(indentation + "  [" + t.getStatusIcon() + "] " + t.getDescription());
+                System.out.println(indentation + line);
+                System.out.println();
+
+
             } else {
-                items[inputCount] = s1;
+                items[inputCount] = new Task(s1);
                 inputCount++;
 
                 System.out.println(indentation + "added: " + s1);
