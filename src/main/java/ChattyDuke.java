@@ -7,15 +7,16 @@ public class ChattyDuke {
     public static final String INDENTATION = "    ";
     public static final String ADDED_TASK = "Got it. I've added this task:";
     public static final String EXIT_STATEMENT = "Bye. Hope to see you again soon!";
+    public static final String INVALID_NUMBER = "Invalid number, please try again!";
     public static int inputCount = 0;
 
 
     public static void markTask(String s1, Task[] taskLists){
-        String[] splitedInput = s1.split(" ");
-        int taskNumber = Integer.parseInt(splitedInput[1]);
+        String[] splitInput = s1.split(" ");
+        int taskNumber = Integer.parseInt(splitInput[1]);
 
         if (taskNumber <= 0 || taskNumber > inputCount){
-            System.out.println("Invalid number, please try again!");
+            System.out.println(INVALID_NUMBER);
 
         }else{
             Task t = taskLists[taskNumber - 1];
@@ -30,12 +31,12 @@ public class ChattyDuke {
     }
 
     public static void unmarkTask(String s1, Task[] taskLists){
-        String[] splitedInput = s1.split(" ");
+        String[] splitInput = s1.split(" ");
 
-        int taskNumber = Integer.parseInt(splitedInput[1]);
+        int taskNumber = Integer.parseInt(splitInput[1]);
 
         if (taskNumber <= 0 || taskNumber > inputCount){
-            System.out.println("Invalid number, please try again!");
+            System.out.println(INVALID_NUMBER);
 
         }else{
             Task t = taskLists[taskNumber - 1];
@@ -94,8 +95,8 @@ public class ChattyDuke {
                 markTask(s1, taskLists);
 
             } else {
-
                 TaskManager taskManager = new TaskManager();
+
                 if(s1.toLowerCase().startsWith("todo")){
                     taskManager.todoTask(s1, taskLists);
 
