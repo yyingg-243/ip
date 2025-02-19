@@ -9,15 +9,14 @@ public class ChattyDuke {
     public static final String ADDED_TASK = "Got it. I've added this task:";
     public static final String EXIT_STATEMENT = "Bye. Hope to see you again soon!";
     public static int inputCount = 0;
+    private static ArrayList<Task> taskLists;
 
 
 
     public static void main(String[] args) {
 
-        ArrayList<Task> taskLists = new ArrayList<>();
-
         TaskManager taskManager = new TaskManager();
-        taskManager.loadToFile(taskLists);
+        taskLists = taskManager.loadToFile();
 
         System.out.println(LINE_SEPARATOR);
         System.out.println("Hello! I'm ChattyDuke");

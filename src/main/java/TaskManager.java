@@ -272,8 +272,15 @@ public class TaskManager {
 
     }
 
-    public static void loadToFile(ArrayList<Task> taskLists){
+    public static ArrayList<Task> loadToFile(){
+
+        ArrayList<Task> taskLists= new ArrayList<>();
         File file = new File("C:./text-ui-test/ChattyDuke.txt");
+
+        if(!file.exists()){
+            System.out.println("No previous saved data!");
+            return taskLists;
+        }
 
 
 
@@ -293,9 +300,11 @@ public class TaskManager {
             System.out.println();
 
         }
+        return taskLists;
 
 
     }
+
 
 
 
