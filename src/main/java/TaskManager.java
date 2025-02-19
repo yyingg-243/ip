@@ -1,6 +1,8 @@
+import java.util.ArrayList;
+
 public class TaskManager {
 
-    public static void handleNewTask(TaskCommand taskCommand, String s1, Task[] taskLists){
+    public static void handleNewTask(TaskCommand taskCommand, String s1, ArrayList<Task> taskLists){
 
         try{
             String[] taskInfo = s1.split(" ",2);
@@ -13,15 +15,15 @@ public class TaskManager {
                 switch(taskCommand){
 
                 case TODO:
-                    todoTask(s1, taskLists);
+                    createTodo(s1, taskLists);
                     break;
 
                 case DEADLINE:
-                    deadlineTask(s1, taskLists);
+                    createDeadline(s1, taskLists);
                     break;
 
                 case EVENT:
-                    eventTask(s1, taskLists);
+                    createEvent(s1, taskLists);
                     break;
                 }
             }
@@ -33,7 +35,7 @@ public class TaskManager {
 
     }
 
-    public static void eventTask (String s1, Task[] taskLists){
+    public static void createEvent (String s1, ArrayList<Task> taskLists){
 
         try{
             String description = s1.split(" ",2)[1];
@@ -66,8 +68,8 @@ public class TaskManager {
 
 
 
-            taskLists[ChattyDuke.inputCount] = new Event(firstPart, fromDescription, toDescription);
-            Task t = taskLists[ChattyDuke.inputCount];
+            taskLists.add(new Event(firstPart, fromDescription, toDescription));
+            Task t = taskLists.get(ChattyDuke.inputCount);
 
             System.out.println(ChattyDuke.INDENTATION + ChattyDuke.ADDED_TASK);
             System.out.println(ChattyDuke.INDENTATION + t.toString());
@@ -88,7 +90,7 @@ public class TaskManager {
 
     }
 
-    public static void deadlineTask(String s1, Task[] taskLists){
+    public static void createDeadline(String s1, ArrayList<Task> taskLists){
 
         try{
             String description = s1.split(" ",2)[1];
@@ -111,11 +113,12 @@ public class TaskManager {
 
             }else{
 
-                taskLists[ChattyDuke.inputCount] = new Deadline(firstPart, secondPart);
-                Task t = taskLists[ChattyDuke.inputCount];
+                taskLists.add(new Deadline(firstPart, secondPart));
+                Task task = taskLists.get(ChattyDuke.inputCount);
+
 
                 System.out.println(ChattyDuke.INDENTATION + ChattyDuke.ADDED_TASK);
-                System.out.println(ChattyDuke.INDENTATION + t.toString());
+                System.out.println(ChattyDuke.INDENTATION + task.toString());
 
                 ChattyDuke.inputCount++;
                 System.out.println(ChattyDuke.INDENTATION + "Now you have " + ChattyDuke.inputCount + " tasks in the list.");
@@ -132,43 +135,43 @@ public class TaskManager {
 
     }
 
-    public static void todoTask(String s1, Task[] taskLists){
+    public static void createTodo(String s1, ArrayList<Task> taskLists){
 
 
         String taskInfo = s1.split(" ", 2)[1];
-        taskLists[ChattyDuke.inputCount] = new Task(taskInfo);
-        Task t = taskLists[ChattyDuke.inputCount];
+        taskLists.add(new Task(taskInfo));
+        Task task = taskLists.get(ChattyDuke.inputCount);
 
         System.out.println(ChattyDuke.INDENTATION + ChattyDuke.ADDED_TASK);
-        System.out.println(ChattyDuke.INDENTATION + t.toString());
+        System.out.println(ChattyDuke.INDENTATION + task.toString());
 
         ChattyDuke.inputCount++;
         System.out.println(ChattyDuke.INDENTATION + "Now you have " + ChattyDuke.inputCount + " tasks in the list.");
     }
 
-    public static void listTask(Task[] taskLists){
+    public static void listTask(ArrayList<Task> taskLists){
         System.out.println(ChattyDuke.INDENTATION + "Here are the tasks in your list:");
         for(int i = 0; i < ChattyDuke.inputCount; i++){
-            Task t = taskLists[i];
+            Task task = taskLists.get(i);
             int index = i + 1;
-            System.out.println(ChattyDuke.INDENTATION + index + "." + t);
+            System.out.println(ChattyDuke.INDENTATION + index + "." + task);
 
         }
         System.out.println(ChattyDuke.INDENTATION + ChattyDuke.LINE_SEPARATOR);
         System.out.println();
     }
 
-    public static void markTask(String s1, Task[] taskLists){
+    public static void markTask(String s1, ArrayList<Task> taskLists){
         String[] splitInput = s1.split(" ");
 
         try{
             int taskNumber = Integer.parseInt(splitInput[1]);
-            Task t = taskLists[taskNumber - 1];
-            t.markAsDone();
+            Task task = taskLists.get(taskNumber - 1);
+            task.markAsDone();
             System.out.println(ChattyDuke.INDENTATION + "Nice! I've marked this task as done:");
-            System.out.println(ChattyDuke.INDENTATION + t);
+            System.out.println(ChattyDuke.INDENTATION + task);
 
-        }catch(ArrayIndexOutOfBoundsException | NullPointerException e){
+        }catch(IndexOutOfBoundsException | NullPointerException e){
             System.out.println(ChattyDukeException.INVALID_NUMBER_MESSAGE);
 
         }catch(NumberFormatException e){
@@ -182,18 +185,18 @@ public class TaskManager {
 
     }
 
-    public static void unmarkTask(String s1, Task[] taskLists){
+    public static void unmarkTask(String s1, ArrayList<Task> taskLists){
         String[] splitInput = s1.split(" ");
 
         try{
             int taskNumber = Integer.parseInt(splitInput[1]);
-            Task t = taskLists[taskNumber - 1];
-            t.unmark();
+            Task task = taskLists.get(taskNumber - 1);
+            task.unmark();
             System.out.println(ChattyDuke.INDENTATION + "OK, I've marked this task as not done yet:");
-            System.out.println(ChattyDuke.INDENTATION + t);
+            System.out.println(ChattyDuke.INDENTATION + task);
 
 
-        }catch(ArrayIndexOutOfBoundsException | NullPointerException e){
+        }catch(IndexOutOfBoundsException | NullPointerException e){
             System.out.println(ChattyDukeException.INVALID_NUMBER_MESSAGE);
 
         }catch(NumberFormatException e){
@@ -204,6 +207,34 @@ public class TaskManager {
             System.out.println();
 
         }
+
+
+    }
+
+    public static void deleteTask(String s1, ArrayList<Task> taskLists){
+        String[] splitInput = s1.split(" ");
+
+        try{
+            int taskNumber = Integer.parseInt(splitInput[1]);
+            Task task = taskLists.remove(taskNumber - 1);
+            ChattyDuke.inputCount --;
+            System.out.println(ChattyDuke.INDENTATION + "Noted. I've removed this task:");
+            System.out.println(ChattyDuke.INDENTATION + task);
+            System.out.println(ChattyDuke.INDENTATION + "Now you have " + ChattyDuke.inputCount + " tasks in the list.");
+
+
+        }catch(IndexOutOfBoundsException | NullPointerException e){
+            System.out.println(ChattyDukeException.INVALID_NUMBER_MESSAGE);
+
+        }catch(NumberFormatException e){
+            System.out.println(ChattyDukeException.ENTER_INTEGER_MESSAGE);
+
+        }finally{
+            System.out.println(ChattyDuke.INDENTATION + ChattyDuke.LINE_SEPARATOR);
+            System.out.println();
+
+        }
+
 
 
     }

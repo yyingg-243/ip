@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ChattyDuke {
@@ -13,7 +14,7 @@ public class ChattyDuke {
 
     public static void main(String[] args) {
 
-        Task[] taskLists = new Task[MAX_ITEMS];
+        ArrayList<Task> taskLists= new ArrayList<>();
 
         System.out.println(LINE_SEPARATOR);
         System.out.println("Hello! I'm ChattyDuke");
@@ -52,6 +53,9 @@ public class ChattyDuke {
                 case MARK:
                     taskManager.markTask(s1, taskLists);
                     break;
+
+                case DELETE:
+                    taskManager.deleteTask(s1, taskLists);
 
                 default:
                     taskManager.handleNewTask(taskCommand, s1, taskLists);
