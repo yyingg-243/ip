@@ -1,4 +1,10 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class TaskManager {
 
@@ -26,6 +32,8 @@ public class TaskManager {
                     createEvent(s1, taskLists);
                     break;
                 }
+
+                saveToFile(taskLists);
             }
 
         }catch(ChattyDukeException e){
@@ -235,6 +243,56 @@ public class TaskManager {
 
         }
 
+    }
+
+    public static void saveToFile(ArrayList<Task> taskLists){
+        try{
+            File file = new File("C:./text-ui-test/ChattyDuke.txt");
+
+            FileWriter writer = new FileWriter(file);
+
+            for( Task lines: taskLists){
+                writer.write(lines + "\n");
+
+            }
+
+            writer.close();
+
+        }catch(IOException e){
+            System.out.println("OOPS! Error in saving changes");
+
+
+        }finally{
+            System.out.println(ChattyDuke.INDENTATION + ChattyDuke.LINE_SEPARATOR);
+            System.out.println();
+
+        }
+
+
+
+    }
+
+    public static void loadToFile(ArrayList<Task> taskLists){
+        File file = new File("C:./text-ui-test/ChattyDuke.txt");
+
+
+
+        try(BufferedReader br = new BufferedReader(new FileReader(file))){
+            String line;
+            while((line = br.readLine()) != null){
+                System.out.println(line);
+            }
+
+
+        }catch(IOException e){
+            System.out.println("OOPS! Error in printing saved tasks.");
+
+
+        }finally{
+            System.out.println(ChattyDuke.INDENTATION + ChattyDuke.LINE_SEPARATOR);
+            System.out.println();
+
+        }
 
 
     }

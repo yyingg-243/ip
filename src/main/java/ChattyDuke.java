@@ -16,6 +16,9 @@ public class ChattyDuke {
 
         ArrayList<Task> taskLists = new ArrayList<>();
 
+        TaskManager taskManager = new TaskManager();
+        taskManager.loadToFile(taskLists);
+
         System.out.println(LINE_SEPARATOR);
         System.out.println("Hello! I'm ChattyDuke");
         System.out.println("What can I do for you?");
@@ -26,7 +29,7 @@ public class ChattyDuke {
         Boolean isBye = false;
 
         while(!isBye) {
-            TaskManager taskManager = new TaskManager();
+
 
             String s1 = scanner.nextLine();
             String command = s1.split(" ")[0].toUpperCase();
