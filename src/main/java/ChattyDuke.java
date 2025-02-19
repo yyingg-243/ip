@@ -14,7 +14,7 @@ public class ChattyDuke {
 
     public static void main(String[] args) {
 
-        ArrayList<Task> taskLists= new ArrayList<>();
+        ArrayList<Task> taskLists = new ArrayList<>();
 
         System.out.println(LINE_SEPARATOR);
         System.out.println("Hello! I'm ChattyDuke");
