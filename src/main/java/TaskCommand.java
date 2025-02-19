@@ -1,4 +1,4 @@
 public enum TaskCommand {
-    TODO, EVENT, DEADLINE, MARK, UNMARK, LIST, BYE;
+    TODO, EVENT, DEADLINE, MARK, UNMARK, LIST, BYE, DELETE;
 
 }
