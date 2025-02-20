@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,21 +9,29 @@ public class ChattyDuke {
     public static final String INDENTATION = "    ";
     public static final String ADDED_TASK = "Got it. I've added this task:";
     public static final String EXIT_STATEMENT = "Bye. Hope to see you again soon!";
-    public static int inputCount = 0;
-    private static ArrayList<Task> taskLists;
+
 
 
 
     public static void main(String[] args) {
 
-        TaskManager taskManager = new TaskManager();
-        taskLists = taskManager.loadToFile();
+        String folderName = "saved_data";
+        String fileName = "data.txt";
+        String currentDirectory = System.getProperty("user.dir");
+        String folderDirectory = currentDirectory + File.separator + folderName;
+        String finalDirectory = folderDirectory + File.separator + fileName;
+
 
         System.out.println(LINE_SEPARATOR);
         System.out.println("Hello! I'm ChattyDuke");
         System.out.println("What can I do for you?");
         System.out.println(LINE_SEPARATOR);
         System.out.println();
+
+
+        TaskManager taskManager = new TaskManager();
+        ArrayList<Task> taskLists = new ArrayList<>();
+        taskLists = taskManager.loadToFile(finalDirectory);
 
         Scanner scanner = new Scanner(System.in);
         Boolean isBye = false;
@@ -60,7 +69,7 @@ public class ChattyDuke {
                     taskManager.deleteTask(s1, taskLists);
 
                 default:
-                    taskManager.handleNewTask(taskCommand, s1, taskLists);
+                    taskManager.handleNewTask(taskCommand, s1, taskLists, finalDirectory, folderDirectory);
                     System.out.println(INDENTATION + LINE_SEPARATOR);
                     System.out.println();
 
