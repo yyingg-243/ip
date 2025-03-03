@@ -1,48 +1,9 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class TaskManager {
 
-    public static void handleNewTask(TaskCommand taskCommand, String s1, ArrayList<Task> taskLists, String finalDirectory, String folderDirectory){
 
-        try{
-            String[] taskInfo = s1.split(" ",2);
-
-            if(taskInfo.length < 2 || taskInfo[1].trim().isEmpty()){
-                throw new ChattyDukeException("Hmmmm, Please include the task description");
-
-            }
-
-            switch(taskCommand){
-
-            case TODO:
-                createTodo(s1, taskLists);
-                break;
-
-            case DEADLINE:
-                createDeadline(s1, taskLists);
-                break;
-
-            case EVENT:
-                createEvent(s1, taskLists);
-                break;
-            }
-
-            saveToFile(taskLists, finalDirectory, folderDirectory);
-
-
-        }catch(ChattyDukeException e){
-            System.out.println(e.getMessage());
-
-        }
-
-    }
-
-    public static void createEvent (String s1, ArrayList<Task> taskLists){
+    public void createEvent (String s1, ArrayList<Task> taskLists){
 
         try{
             String description = s1.split(" ",2)[1];
@@ -97,7 +58,7 @@ public class TaskManager {
 
     }
 
-    public static void createDeadline(String s1, ArrayList<Task> taskLists){
+    public void createDeadline(String s1, ArrayList<Task> taskLists){
 
         try{
             String description = s1.split(" ",2)[1];
@@ -142,7 +103,7 @@ public class TaskManager {
 
     }
 
-    public static void createTodo(String s1, ArrayList<Task> taskLists){
+    public void createTodo(String s1, ArrayList<Task> taskLists){
 
 
         String taskInfo = s1.split(" ", 2)[1];
@@ -156,7 +117,7 @@ public class TaskManager {
         System.out.println(ChattyDuke.INDENTATION + "Now you have " + taskLists.size() + " tasks in the list.");
     }
 
-    public static void listTask(ArrayList<Task> taskLists){
+    public void listTask(ArrayList<Task> taskLists){
         System.out.println(ChattyDuke.INDENTATION + "Here are the tasks in your list:");
 
 
@@ -170,7 +131,7 @@ public class TaskManager {
         System.out.println();
     }
 
-    public static void markTask(String s1, ArrayList<Task> taskLists){
+    public void markTask(String s1, ArrayList<Task> taskLists){
         String[] splitInput = s1.split(" ");
 
         try{
@@ -194,7 +155,7 @@ public class TaskManager {
 
     }
 
-    public static void unmarkTask(String s1, ArrayList<Task> taskLists){
+    public void unmarkTask(String s1, ArrayList<Task> taskLists){
         String[] splitInput = s1.split(" ");
 
         try{
@@ -203,7 +164,6 @@ public class TaskManager {
             task.unmark();
             System.out.println(ChattyDuke.INDENTATION + "OK, I've marked this task as not done yet:");
             System.out.println(ChattyDuke.INDENTATION + task);
-
 
         }catch(IndexOutOfBoundsException | NullPointerException e){
             System.out.println(ChattyDukeException.INVALID_NUMBER_MESSAGE);
@@ -214,13 +174,12 @@ public class TaskManager {
         }finally{
             System.out.println(ChattyDuke.INDENTATION + ChattyDuke.LINE_SEPARATOR);
             System.out.println();
-
         }
 
 
     }
 
-    public static void deleteTask(String s1, ArrayList<Task> taskLists){
+    public void deleteTask(String s1, ArrayList<Task> taskLists){
         String[] splitInput = s1.split(" ");
 
         try{
@@ -231,7 +190,6 @@ public class TaskManager {
             System.out.println(ChattyDuke.INDENTATION + task);
             System.out.println(ChattyDuke.INDENTATION + "Now you have " + taskLists.size() + " tasks in the list.");
 
-
         }catch(IndexOutOfBoundsException | NullPointerException e){
             System.out.println(ChattyDukeException.INVALID_NUMBER_MESSAGE);
 
@@ -242,68 +200,5 @@ public class TaskManager {
 
     }
 
-    public static void saveToFile(ArrayList<Task> taskLists, String finalDirectory, String folderPath){
-
-        File folder = new File(folderPath);
-        if(!folder.exists()){
-            folder.mkdirs();
-        }
-
-        try{
-           File file = new File(finalDirectory);
-            FileWriter writer = new FileWriter(file);
-
-            for( Task lines: taskLists){
-                writer.write(lines + "\n");
-
-            }
-
-            writer.close();
-
-        }catch(IOException e){
-            System.out.println("OOPS! Error in saving changes");
-
-
-        }finally{
-            System.out.println(ChattyDuke.INDENTATION + ChattyDuke.LINE_SEPARATOR);
-            System.out.println();
-
-        }
-
-
-
-    }
-
-    public static ArrayList<Task> loadToFile(String finalDirectory){
-
-        ArrayList<Task> taskLists= new ArrayList<>();
-        File file = new File(finalDirectory);
-
-        if(!file.exists()){
-            System.out.println("No previous saved data!");
-            return taskLists;
-        }
-
-        try(BufferedReader br = new BufferedReader(new FileReader(file))){
-            String line;
-            while((line = br.readLine()) != null){
-
-                String description = line.split(" ", 3)[2];
-                taskLists.add(new Task(description));
-            }
-
-
-        }catch(IOException e){
-            System.out.println("OOPS! Error in printing saved tasks.");
-
-
-        }finally{
-            System.out.println(ChattyDuke.INDENTATION + ChattyDuke.LINE_SEPARATOR);
-            System.out.println();
-
-        }
-        return taskLists;
-
-    }
 
 }
