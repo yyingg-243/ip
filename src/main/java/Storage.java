@@ -64,8 +64,12 @@ public class Storage {
             String line;
             while((line = br.readLine()) != null){
 
-                String description = line.split(" ", 3)[2];
-                taskLists.add(new Task(description));
+                String taskCommand = Character.toString(line.charAt(1));
+                saveAccordingTaskType(taskCommand,line, taskLists);
+
+                //String description = line.split(" ", 3)[2];
+
+                //taskLists.add(new Task(description));
             }
 
         }catch(IOException e){
@@ -76,6 +80,34 @@ public class Storage {
 
         }
         return taskLists;
+
+    }
+
+    public void saveAccordingTaskType(String taskCommand, String inputString, ArrayList<Task> taskLists){
+        String description = inputString.split(" ", 3)[2];
+        if(taskCommand.equalsIgnoreCase( "T")){
+            taskLists.add(new Task(description));
+
+        }else if (taskCommand.equalsIgnoreCase( "D")){
+            String[] taskInfo = description.split("\\(by:", 2);
+            String taskDetail = taskInfo[0].trim();
+            String timeline = taskInfo[1].substring(0, taskInfo[1].length() - 1).trim();
+            taskLists.add(new Deadline(taskDetail, timeline));
+
+        }else if (taskCommand.equalsIgnoreCase("E")){
+
+            String[] taskInfo = description.split("\\(from:", 2);
+            String taskDetail = taskInfo[0].trim();
+            String timeline = taskInfo[1].trim();
+
+            String[] dateDetails = timeline.split("to:", 2);
+
+            String fromDescription = dateDetails[0].trim();
+            String toDescription = dateDetails[1].substring(0, dateDetails[1].length() - 1).trim();
+
+            taskLists.add(new Event(taskDetail, fromDescription, toDescription));
+
+        }
 
     }
 }

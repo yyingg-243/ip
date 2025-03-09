@@ -200,5 +200,37 @@ public class TaskManager {
 
     }
 
+    public void findTask(String s1, ArrayList<Task> taskLists){
+
+        int index = 1;
+        boolean itemFound = false;
+        try{
+            String itemToFind = s1.split(" ")[1];
+            System.out.println(ChattyDuke.INDENTATION + "Here are the matching tasks in your list: ");
+
+            for (Task task: taskLists){
+                if(task.getDescription().contains(itemToFind)){
+                    itemFound = true;
+                    System.out.println(index + ". " + task);
+                    index++;
+                }
+
+            }
+
+            if(!itemFound){
+                System.out.println(ChattyDuke.INDENTATION + "No matching tasks found!");
+                System.out.println(ChattyDuke.INDENTATION + "** Find function is case sensitive **");
+            }
+
+        }catch(IndexOutOfBoundsException e){
+            System.out.println(ChattyDukeException.MISSING_ITEM_TO_FIND_MESSAGE);
+
+        }finally{
+            System.out.println(ChattyDuke.INDENTATION + ChattyDuke.LINE_SEPARATOR);
+            System.out.println();
+
+        }
+    }
+
 
 }

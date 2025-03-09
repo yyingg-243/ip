@@ -1,0 +1,5 @@
+[T][ ] read book
+[T][ ] return book (by: June 6)
+[E][ ] do this (from: this to: tmr)
+[D][ ] do this (by: tmr)
+[T][ ] bruing home

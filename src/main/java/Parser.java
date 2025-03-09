@@ -19,6 +19,11 @@ public class Parser {
 
         case DELETE:
             taskManager.deleteTask(s1, taskLists);
+            break;
+
+        case FIND:
+            taskManager.findTask(s1, taskLists);
+            break;
 
         default:
             handleNewTask(taskManager, taskCommand, s1, taskLists, storage);
@@ -53,7 +58,6 @@ public class Parser {
             }
 
             storage.saveToFile(taskLists);
-
 
         }catch(ChattyDukeException e){
             System.out.println(e.getMessage());
