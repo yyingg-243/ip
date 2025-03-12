@@ -1,5 +1,4 @@
-[T][ ] read book
 [T][ ] return book (by: June 6)
-[E][ ] do this (from: this to: tmr)
-[D][ ] do this (by: tmr)
-[T][ ] bruing home
+[E][ ] read book (from: afternoon to: night)
+[T][ ] read book
+[D][ ] read book (by: 6th June)

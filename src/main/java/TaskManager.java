@@ -196,6 +196,10 @@ public class TaskManager {
         }catch(NumberFormatException e){
             System.out.println(ChattyDukeException.ENTER_INTEGER_MESSAGE);
 
+        }finally{
+            System.out.println(ChattyDuke.INDENTATION + ChattyDuke.LINE_SEPARATOR);
+            System.out.println();
+
         }
 
     }

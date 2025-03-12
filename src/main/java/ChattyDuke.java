@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-
 public class ChattyDuke {
 
     public static final String LINE_SEPARATOR = "____________________________________________________________";
@@ -30,11 +29,17 @@ public class ChattyDuke {
 
     }
 
+    /**
+     *
+     */
     public void run(){
         ui.startChat();
     }
 
-
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         new ChattyDuke("data/tasks.txt").run();
     }
