@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Class that handles interactions with the user.
+ */
 public class Ui {
 
     Boolean isBye = false;
@@ -11,6 +14,12 @@ public class Ui {
 
     ArrayList<Task> taskLists;
 
+    /**
+     * Constructor to initialize Ui object.
+     * @param taskManager a reference to the TaskManager instance.
+     * @param taskLists an arraylist that stores all the tasks.
+     * @param storage a reference to the Storage instance.
+     */
     public Ui(TaskManager taskManager, ArrayList<Task> taskLists, Storage storage){
         this.taskManager = taskManager;
         this.taskLists = taskLists;
@@ -18,6 +27,9 @@ public class Ui {
         parser = new Parser();
     }
 
+    /**
+     * Method to start up the chatbot.
+     */
     public void startChat(){
         System.out.println(ChattyDuke.LINE_SEPARATOR);
         System.out.println("Hello! I'm ChattyDuke");
@@ -27,10 +39,17 @@ public class Ui {
         chatSession();
     }
 
+    /**
+     * Method that prints error message.
+     * @param message Error message to be printed.
+     */
     public void showLoadingError(String message){
         System.out.println("Error: " + message);
     }
 
+    /**
+     * Method to respond to the user input.
+     */
     public void chatSession() {
 
         while (!isBye) {
@@ -58,5 +77,4 @@ public class Ui {
             }
         }
     }
-
 }

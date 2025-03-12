@@ -5,18 +5,27 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * A class that manages the saving and loading process of the arraylist.
+ */
 public class Storage {
 
     private String filePath;
     private String folderDirectory;
     private String finalDirectory;
 
+    /**
+     * Constructor of the storage class.
+     * @param filePath File directory to save remaining task in the taskList.
+     */
     public Storage(String filePath){
         this.filePath = filePath;
     }
 
+    /**
+     *create new directory if the file path given does not exist.
+     */
     public void setDirectory(){
-        System.out.println(filePath);
 
         String folderName = filePath.split("/")[0];
         String fileName = filePath.split("/")[1];
@@ -31,6 +40,10 @@ public class Storage {
 
     }
 
+    /**
+     * Save remaining tasks in the taskList into the file path given.
+     * @param taskLists an arraylist that store all the tasks.
+     */
     public void saveToFile(ArrayList<Task> taskLists){
 
         try{
@@ -52,6 +65,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Return an arraylist by loading tasks saved in the hard disk into the arraylist.
+     * @param taskLists an arraylist that store all the tasks.
+     * @return a new arraylist to store tasks.
+     * @throws ChattyDukeException if the directory does not exist.
+     */
     public ArrayList<Task> loadToFile(ArrayList<Task> taskLists) throws ChattyDukeException {
 
         File file = new File(finalDirectory);
@@ -66,10 +85,6 @@ public class Storage {
 
                 String taskCommand = Character.toString(line.charAt(1));
                 saveAccordingTaskType(taskCommand,line, taskLists);
-
-                //String description = line.split(" ", 3)[2];
-
-                //taskLists.add(new Task(description));
             }
 
         }catch(IOException e){
@@ -83,6 +98,12 @@ public class Storage {
 
     }
 
+    /**
+     * Save the data according to the command type.
+     * @param taskCommand command type entered by user.
+     * @param inputString a sentence that describe the task.
+     * @param taskLists an arraylist that stores all the tasks.
+     */
     public void saveAccordingTaskType(String taskCommand, String inputString, ArrayList<Task> taskLists){
         String description = inputString.split(" ", 3)[2];
         if(taskCommand.equalsIgnoreCase( "T")){
@@ -106,7 +127,6 @@ public class Storage {
             String toDescription = dateDetails[1].substring(0, dateDetails[1].length() - 1).trim();
 
             taskLists.add(new Event(taskDetail, fromDescription, toDescription));
-
         }
 
     }

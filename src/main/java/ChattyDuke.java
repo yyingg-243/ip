@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+/**
+ * Main class for the chatbot "ChattyDuke"
+ */
 public class ChattyDuke {
 
     public static final String LINE_SEPARATOR = "____________________________________________________________";
@@ -13,7 +16,10 @@ public class ChattyDuke {
     private final TaskManager taskManager = new TaskManager();
     private ArrayList<Task> taskLists = new ArrayList<>();
 
-
+    /**
+     * Constructor of ChattyDuke to initialize the chatbot.
+     * @param filePath File directory to save remaining task in the taskList.
+     */
     public ChattyDuke(String filePath) {
         storage = new Storage(filePath);
 
@@ -30,15 +36,15 @@ public class ChattyDuke {
     }
 
     /**
-     *
+     * Call startChat method to start accepting input from the user.
      */
     public void run(){
         ui.startChat();
     }
 
     /**
-     *
-     * @param args
+     * The main function of the class.
+     * @param args command-line input.
      */
     public static void main(String[] args) {
         new ChattyDuke("data/tasks.txt").run();

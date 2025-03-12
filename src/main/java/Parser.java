@@ -1,8 +1,19 @@
 import java.util.ArrayList;
 
+/**
+ * A class to parse the input from user.
+ */
 public class Parser {
 
-    public void handleUserInput(TaskCommand taskCommand, TaskManager taskManager, ArrayList<Task> taskLists, String s1, Storage storage){
+    /**
+     * Method to determine the type of command input by the user.
+     * @param taskCommand Command type from the user input.
+     * @param taskManager a reference to the TaskManager instance.
+     * @param taskLists an arraylist that stores all the tasks.
+     * @param userInput a sentence entered by the user in the command-line terminal.
+     * @param storage a reference to the Storage instance.
+     */
+    public void handleUserInput(TaskCommand taskCommand, TaskManager taskManager, ArrayList<Task> taskLists, String userInput, Storage storage){
 
         switch (taskCommand) {
         case LIST:
@@ -10,23 +21,23 @@ public class Parser {
             break;
 
         case UNMARK:
-            taskManager.unmarkTask(s1, taskLists);
+            taskManager.unmarkTask(userInput, taskLists);
             break;
 
         case MARK:
-            taskManager.markTask(s1, taskLists);
+            taskManager.markTask(userInput, taskLists);
             break;
 
         case DELETE:
-            taskManager.deleteTask(s1, taskLists);
+            taskManager.deleteTask(userInput, taskLists);
             break;
 
         case FIND:
-            taskManager.findTask(s1, taskLists);
+            taskManager.findTask(userInput, taskLists);
             break;
 
         default:
-            handleNewTask(taskManager, taskCommand, s1, taskLists, storage);
+            handleNewTask(taskManager, taskCommand, userInput, taskLists, storage);
             System.out.println(ChattyDuke.INDENTATION + ChattyDuke.LINE_SEPARATOR);
             System.out.println();
 
@@ -34,26 +45,32 @@ public class Parser {
 
     }
 
-    public void handleNewTask(TaskManager taskManager, TaskCommand taskCommand, String s1, ArrayList<Task> taskLists, Storage storage){
+    /**
+     * Method to create new task according to the command type.
+     * @param taskManager a reference to the TaskManager instance.
+     * @param taskCommand Command type from the user input.
+     * @param userInput a sentence entered by the user in the command-line terminal.
+     * @param taskLists an arraylist that stores all the tasks.
+     * @param storage a reference to the Storage instance.
+     */
+    public void handleNewTask(TaskManager taskManager, TaskCommand taskCommand, String userInput, ArrayList<Task> taskLists, Storage storage){
         try{
-            String[] taskInfo = s1.split(" ",2);
-
+            String[] taskInfo = userInput.split(" ",2);
             if(taskInfo.length < 2 || taskInfo[1].trim().isEmpty()){
                 throw new ChattyDukeException("Hmmmm, Please include the task description");
             }
 
             switch(taskCommand){
-
             case TODO:
-                taskManager.createTodo(s1, taskLists);
+                taskManager.createTodo(userInput, taskLists);
                 break;
 
             case DEADLINE:
-                taskManager.createDeadline(s1, taskLists);
+                taskManager.createDeadline(userInput, taskLists);
                 break;
 
             case EVENT:
-                taskManager.createEvent(s1, taskLists);
+                taskManager.createEvent(userInput, taskLists);
                 break;
             }
 
@@ -61,11 +78,6 @@ public class Parser {
 
         }catch(ChattyDukeException e){
             System.out.println(e.getMessage());
-
         }
-
     }
-
-
-
 }

@@ -1,12 +1,19 @@
 import java.util.ArrayList;
 
+/**
+ * A class that handle the command type entered by user.
+ */
 public class TaskManager {
 
-
-    public void createEvent (String s1, ArrayList<Task> taskLists){
+    /**
+     * Method to create new event task and save it to the arraylist.
+     * @param userInput a sentence entered by the user.
+     * @param taskLists an arraylist that stores all the tasks.
+     */
+    public void createEvent (String userInput, ArrayList<Task> taskLists){
 
         try{
-            String description = s1.split(" ",2)[1];
+            String description = userInput.split(" ",2)[1];
             String[] taskInfo = description.split("/from", 2);
 
             String taskDetail = taskInfo[0].trim();
@@ -20,7 +27,6 @@ public class TaskManager {
             }
 
             String[] dateDetails = timeline.split("/to", 2);
-
             String fromDescription = dateDetails[0].trim();
             String toDescription = dateDetails[1].trim();
 
@@ -34,17 +40,12 @@ public class TaskManager {
                 throw new ChattyDukeException("Hmm! So, when would you like this event to end?");
             }
 
-
-
             taskLists.add(new Event(taskDetail, fromDescription, toDescription));
             Task task = taskLists.get(taskLists.size() - 1);
 
             System.out.println(ChattyDuke.INDENTATION + ChattyDuke.ADDED_TASK);
             System.out.println(ChattyDuke.INDENTATION + task.toString());
-
             System.out.println(ChattyDuke.INDENTATION + "Now you have " + taskLists.size() + " tasks in the list.");
-
-
 
         }catch(ChattyDukeException e){
             System.out.println(e.getMessage());
@@ -53,15 +54,19 @@ public class TaskManager {
             System.out.println("Invalid format! Please follow the correct format:\n" +
                     " event {task} /from {details} /to {details}");
 
-
         }
 
     }
 
-    public void createDeadline(String s1, ArrayList<Task> taskLists){
+    /**
+     * Method to create new deadline tasks and save it to the arraylist.
+     * @param userInput a sentence entered by the user.
+     * @param taskLists an arraylist that stores all the tasks.
+     */
+    public void createDeadline(String userInput, ArrayList<Task> taskLists){
 
         try{
-            String description = s1.split(" ",2)[1];
+            String description = userInput.split(" ",2)[1];
             String[] taskInfo = description.split("/by", 2);
 
             String taskDetail = taskInfo[0].trim();
@@ -84,15 +89,10 @@ public class TaskManager {
                 taskLists.add(new Deadline(taskDetail, timeline));
                 Task task = taskLists.get(taskLists.size() - 1);
 
-
                 System.out.println(ChattyDuke.INDENTATION + ChattyDuke.ADDED_TASK);
                 System.out.println(ChattyDuke.INDENTATION + task.toString());
-
-
                 System.out.println(ChattyDuke.INDENTATION + "Now you have " + taskLists.size() + " tasks in the list.");
-
             }
-
         }catch(ChattyDukeException e){
             System.out.println(e.getMessage());
 
@@ -100,13 +100,17 @@ public class TaskManager {
             System.out.println("OOPS! Please include '/by' followed by the deadline");
 
         }
-
     }
 
-    public void createTodo(String s1, ArrayList<Task> taskLists){
+    /**
+     * Method to create new todo tasks and save it to the arraylist.
+     * @param userInput a sentence entered by the user.
+     * @param taskLists an arraylist that stores all the tasks.
+     */
+    public void createTodo(String userInput, ArrayList<Task> taskLists){
 
 
-        String taskInfo = s1.split(" ", 2)[1];
+        String taskInfo = userInput.split(" ", 2)[1];
         taskLists.add(new Task(taskInfo));
         Task task = taskLists.get(taskLists.size() - 1);
 
@@ -117,6 +121,10 @@ public class TaskManager {
         System.out.println(ChattyDuke.INDENTATION + "Now you have " + taskLists.size() + " tasks in the list.");
     }
 
+    /**
+     * Method to list all the tasks stores in the taskLists.
+     * @param taskLists an arraylist that stores all the tasks.
+     */
     public void listTask(ArrayList<Task> taskLists){
         System.out.println(ChattyDuke.INDENTATION + "Here are the tasks in your list:");
 
@@ -131,8 +139,13 @@ public class TaskManager {
         System.out.println();
     }
 
-    public void markTask(String s1, ArrayList<Task> taskLists){
-        String[] splitInput = s1.split(" ");
+    /**
+     * Mark specific task as done.
+     * @param userInput a sentence entered by the user.
+     * @param taskLists an arraylist that stores all the tasks.
+     */
+    public void markTask(String userInput, ArrayList<Task> taskLists){
+        String[] splitInput = userInput.split(" ");
 
         try{
             int taskNumber = Integer.parseInt(splitInput[1]);
@@ -152,11 +165,15 @@ public class TaskManager {
             System.out.println();
 
         }
-
     }
 
-    public void unmarkTask(String s1, ArrayList<Task> taskLists){
-        String[] splitInput = s1.split(" ");
+    /**
+     * Mark specific task as undone.
+     * @param userInput a sentence entered by the user.
+     * @param taskLists an arraylist that stores all the tasks.
+     */
+    public void unmarkTask(String userInput, ArrayList<Task> taskLists){
+        String[] splitInput = userInput.split(" ");
 
         try{
             int taskNumber = Integer.parseInt(splitInput[1]);
@@ -175,12 +192,15 @@ public class TaskManager {
             System.out.println(ChattyDuke.INDENTATION + ChattyDuke.LINE_SEPARATOR);
             System.out.println();
         }
-
-
     }
 
-    public void deleteTask(String s1, ArrayList<Task> taskLists){
-        String[] splitInput = s1.split(" ");
+    /**
+     * Delete specific task from the taskLists.
+     * @param userInput a sentence entered by user.
+     * @param taskLists an arraylist that stores all the tasks.
+     */
+    public void deleteTask(String userInput, ArrayList<Task> taskLists){
+        String[] splitInput = userInput.split(" ");
 
         try{
             int taskNumber = Integer.parseInt(splitInput[1]);
@@ -204,12 +224,17 @@ public class TaskManager {
 
     }
 
-    public void findTask(String s1, ArrayList<Task> taskLists){
+    /**
+     * Search for tasks according to the keyword given by user.
+     * @param userInput a sentence entered by user.
+     * @param taskLists an arraylist that stores all the tasks.
+     */
+    public void findTask(String userInput, ArrayList<Task> taskLists){
 
         int index = 1;
         boolean itemFound = false;
         try{
-            String itemToFind = s1.split(" ")[1];
+            String itemToFind = userInput.split(" ")[1];
             System.out.println(ChattyDuke.INDENTATION + "Here are the matching tasks in your list: ");
 
             for (Task task: taskLists){
@@ -218,7 +243,6 @@ public class TaskManager {
                     System.out.println(index + ". " + task);
                     index++;
                 }
-
             }
 
             if(!itemFound){
@@ -235,6 +259,4 @@ public class TaskManager {
 
         }
     }
-
-
 }
