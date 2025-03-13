@@ -14,6 +14,11 @@ public class Storage {
     private String folderDirectory;
     private String finalDirectory;
 
+    private final static String TODO_TASK = "T";
+    private final static String DEADLINE_TASK = "D";
+    private final static String EVENT_TASK = "E";
+
+
     /**
      * Constructor of the storage class.
      * @param filePath File directory to save remaining task in the taskList.
@@ -23,19 +28,27 @@ public class Storage {
     }
 
     /**
-     *create new directory if the file path given does not exist.
+     * Check and create new directory if the file path given does not exist.
      */
     public void setDirectory(){
 
-        String folderName = filePath.split("/")[0];
-        String fileName = filePath.split("/")[1];
+        String[] pathSplit = filePath.split("/");
+        if(pathSplit.length < 2){
+            throw new IllegalArgumentException(ChattyDukeException.INVALID_FILEPATH_MESSAGE);
+        }
+
+        String folderName = pathSplit[0].trim();
+        String fileName = pathSplit[1].trim();
         String currentDirectory = System.getProperty("user.dir");
         folderDirectory = currentDirectory + File.separator + folderName;
         finalDirectory = folderDirectory + File.separator + fileName;
 
         File folder = new File(folderDirectory);
         if(!folder.exists()){
-            folder.mkdirs();
+            boolean isCreate = folder.mkdirs();
+            if(!isCreate){
+                throw new RuntimeException("Failed to create directory!" );
+            }
         }
 
     }
@@ -50,7 +63,7 @@ public class Storage {
             File file = new File(finalDirectory);
             FileWriter writer = new FileWriter(file);
 
-            for( Task lines: taskLists){
+            for(Task lines: taskLists){
                 writer.write(lines + "\n");
             }
 
@@ -92,10 +105,8 @@ public class Storage {
         }finally{
             System.out.println(ChattyDuke.INDENTATION + ChattyDuke.LINE_SEPARATOR);
             System.out.println();
-
         }
         return taskLists;
-
     }
 
     /**
@@ -105,17 +116,43 @@ public class Storage {
      * @param taskLists an arraylist that stores all the tasks.
      */
     public void saveAccordingTaskType(String taskCommand, String inputString, ArrayList<Task> taskLists){
-        String description = inputString.split(" ", 3)[2];
-        if(taskCommand.equalsIgnoreCase( "T")){
-            taskLists.add(new Task(description));
+        boolean isDone;
+        String description;
+        Task task;
 
-        }else if (taskCommand.equalsIgnoreCase( "D")){
+        if(inputString.charAt(4) == 'X'){
+            isDone = true;
+            description = inputString.split(" ", 2)[1];
+        }else{
+            isDone = false;
+            description = inputString.split(" ", 3)[2];
+        }
+
+        if(taskCommand.equalsIgnoreCase( TODO_TASK)){
+            taskLists.add(new Task(description));
+            task = taskLists.get(taskLists.size() - 1);
+
+            if(isDone){
+                task.markAsDone();
+            }else{
+                task.unmark();
+            }
+
+        }else if (taskCommand.equalsIgnoreCase( DEADLINE_TASK)){
             String[] taskInfo = description.split("\\(by:", 2);
             String taskDetail = taskInfo[0].trim();
             String timeline = taskInfo[1].substring(0, taskInfo[1].length() - 1).trim();
             taskLists.add(new Deadline(taskDetail, timeline));
+            task = taskLists.get(taskLists.size() - 1);
 
-        }else if (taskCommand.equalsIgnoreCase("E")){
+            if(isDone){
+                task.markAsDone();
+            }else{
+                task.unmark();
+            }
+
+
+        }else if (taskCommand.equalsIgnoreCase(EVENT_TASK)){
 
             String[] taskInfo = description.split("\\(from:", 2);
             String taskDetail = taskInfo[0].trim();
@@ -127,7 +164,16 @@ public class Storage {
             String toDescription = dateDetails[1].substring(0, dateDetails[1].length() - 1).trim();
 
             taskLists.add(new Event(taskDetail, fromDescription, toDescription));
+            task = taskLists.get(taskLists.size() - 1);
+
+            if(isDone){
+                task.markAsDone();
+            }else{
+                task.unmark();
+            }
         }
+
+
 
     }
 }

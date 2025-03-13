@@ -13,7 +13,8 @@ public class Parser {
      * @param userInput a sentence entered by the user in the command-line terminal.
      * @param storage a reference to the Storage instance.
      */
-    public void handleUserInput(TaskCommand taskCommand, TaskManager taskManager, ArrayList<Task> taskLists, String userInput, Storage storage){
+    public void handleUserInput(TaskCommand taskCommand, TaskManager taskManager,
+                                ArrayList<Task> taskLists, String userInput, Storage storage){
 
         switch (taskCommand) {
         case LIST:
@@ -42,7 +43,7 @@ public class Parser {
             System.out.println();
 
         }
-
+        storage.saveToFile(taskLists);
     }
 
     /**
@@ -53,11 +54,12 @@ public class Parser {
      * @param taskLists an arraylist that stores all the tasks.
      * @param storage a reference to the Storage instance.
      */
-    public void handleNewTask(TaskManager taskManager, TaskCommand taskCommand, String userInput, ArrayList<Task> taskLists, Storage storage){
+    public void handleNewTask(TaskManager taskManager, TaskCommand taskCommand, String userInput,
+                              ArrayList<Task> taskLists, Storage storage){
         try{
             String[] taskInfo = userInput.split(" ",2);
             if(taskInfo.length < 2 || taskInfo[1].trim().isEmpty()){
-                throw new ChattyDukeException("Hmmmm, Please include the task description");
+                throw new ChattyDukeException(ChattyDukeException.MISSING_TASK_DESCRIPTION_MESSAGE);
             }
 
             switch(taskCommand){
@@ -73,7 +75,6 @@ public class Parser {
                 taskManager.createEvent(userInput, taskLists);
                 break;
             }
-
             storage.saveToFile(taskLists);
 
         }catch(ChattyDukeException e){

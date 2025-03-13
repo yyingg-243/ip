@@ -20,10 +20,10 @@ public class TaskManager {
             String timeline = taskInfo[1].trim();
 
             if(taskDetail.length() <= 0){
-                throw new ChattyDukeException("Oh no! You forget about the task description!");
+                throw new ChattyDukeException(ChattyDukeException.MISSING_TASK_DESCRIPTION_MESSAGE);
 
             }else if(timeline.length() <= 0){
-                throw new ChattyDukeException("Oh no! You forget about the task time description!");
+                throw new ChattyDukeException(ChattyDukeException.MISSING_TASK_TIME_DESCRIPTION_MESSAGE);
             }
 
             String[] dateDetails = timeline.split("/to", 2);
@@ -31,13 +31,13 @@ public class TaskManager {
             String toDescription = dateDetails[1].trim();
 
             if(fromDescription.length() <= 0 && toDescription.length() <= 0){
-                throw new ChattyDukeException("Oh no! You forget about the both from & to description!");
+                throw new ChattyDukeException(ChattyDukeException.MISSING_BOTH_TASK_TIME_DESCRIPTION);
 
             }else if(fromDescription.length() <= 0){
-                throw new ChattyDukeException("Hmmm! When do you what to start this event?");
+                throw new ChattyDukeException(ChattyDukeException.MISSING_FROM_DESCRIPTION);
 
             }else if(toDescription.length() <= 0){
-                throw new ChattyDukeException("Hmm! So, when would you like this event to end?");
+                throw new ChattyDukeException(ChattyDukeException.MISSING_TO_DESCRIPTION);
             }
 
             taskLists.add(new Event(taskDetail, fromDescription, toDescription));
@@ -51,8 +51,7 @@ public class TaskManager {
             System.out.println(e.getMessage());
 
         }catch(ArrayIndexOutOfBoundsException e) {
-            System.out.println("Invalid format! Please follow the correct format:\n" +
-                    " event {task} /from {details} /to {details}");
+            System.out.println(ChattyDukeException.INVALID_EVENT_TASK_FORMAT);
 
         }
 
@@ -74,15 +73,15 @@ public class TaskManager {
 
             if(taskDetail.length() <= 0 && timeline.length() <= 0) {
 
-                throw new ChattyDukeException("Dang! You forget both the task description & deadline!");
+                throw new ChattyDukeException(ChattyDukeException.MISSING_BOTH_TASK_TIME_DESCRIPTION);
 
             }else if(taskDetail.length() <= 0){
 
-                throw new ChattyDukeException("Oh no! You forget about the task description!");
+                throw new ChattyDukeException(ChattyDukeException.MISSING_TASK_DESCRIPTION_MESSAGE);
 
             }else if (timeline.length() <= 0){
 
-                throw new ChattyDukeException("OOPS! Please include the deadline");
+                throw new ChattyDukeException(ChattyDukeException.MISSING_DEADLINE);
 
             }else{
 
@@ -97,7 +96,7 @@ public class TaskManager {
             System.out.println(e.getMessage());
 
         }catch(ArrayIndexOutOfBoundsException e){
-            System.out.println("OOPS! Please include '/by' followed by the deadline");
+            System.out.println(ChattyDukeException.INVALID_DEADLINE_TASK_FORMAT);
 
         }
     }

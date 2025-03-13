@@ -1,4 +1,3 @@
-[T][ ] return book (by: June 6)
-[E][ ] read book (from: afternoon to: night)
-[T][ ] read book
-[D][ ] read book (by: 6th June)
+[T][X] read book
+[D][X] read book (by: today)
+[E][X] do this (from: today to: tmr)
