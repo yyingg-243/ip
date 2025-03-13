@@ -16,7 +16,7 @@ public class Task {
 
     /**
      * Return current status of the task.
-     * @return "[X]" if the task is done.
+     * @return "[X]" if the task is done, "[ ]" if not done.
      */
     public String getStatusIcon() {
         return (isDone ? "[X] " : "[ ] ");
